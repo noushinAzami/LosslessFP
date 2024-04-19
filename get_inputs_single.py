@@ -75,16 +75,16 @@ start_time = time.time()
 
 # Example usage:
 url = "https://sdrbench.github.io/"
-keywords = [#"SDRBENCH-CESM-ATM-26x1800x3600.tar",
-            #"SDRBENCH-Hurricane-ISABEL-100x500x500.tar",
-            #"SDRBENCH-EXASKY-NYX-512x512x512.tar",
-            #"SDRBENCH-QMCPack.tar",
-            #"SDRBENCH-SCALE-98x1200x1200.tar",
-            #"SDRBENCH-exaalt-copper.tar",
-            #"SDRBENCH-exaalt-helium.tar",
-            #"EXASKY-HACC-data-medium-size.tar",
-            "SDRBENCH-Miranda-256x384x384.tar"]
-            #"SDRBENCH-EXAALT-2869440.tar"]
+keywords = ["SDRBENCH-CESM-ATM-26x1800x3600.tar",
+            "SDRBENCH-Hurricane-ISABEL-100x500x500.tar",
+            "SDRBENCH-EXASKY-NYX-512x512x512.tar",
+            "SDRBENCH-QMCPack.tar",
+            "SDRBENCH-SCALE-98x1200x1200.tar",
+            "SDRBENCH-exaalt-copper.tar",
+            "SDRBENCH-exaalt-helium.tar",
+            "EXASKY-HACC-data-medium-size.tar",
+            "SDRBENCH-Miranda-256x384x384.tar",
+            "SDRBENCH-EXAALT-2869440.tar"]
 
 links = get_links_from_page(url)
 print("Links found on the page:")
