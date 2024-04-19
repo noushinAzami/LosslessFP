@@ -42,7 +42,7 @@ for input_folder in os.listdir(inputs_dir):
         
         # Run the exe file with the input file and output file name five times
         throughput_list = []
-        for i in range(5):
+        for i in range(3):
             print(f"Processing file {input_file} run {i+1}")
             command = [os.path.join(exe_dir, exe_file), input_file_path, output_file_name, "y"]
             try:
