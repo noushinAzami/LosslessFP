@@ -117,7 +117,4 @@ delete_files_with_word("single_inputs", ".txt")
 execution_time = time.time() - start_time
 print("Script execution time:", execution_time, "seconds")
 
-# Store execution time in a file
-with open("execution_time.txt", "w") as file:
-  file.write("Script execution time: {} seconds".format(execution_time))
     
