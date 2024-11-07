@@ -83,7 +83,6 @@ keywords = ["SDRBENCH-CESM-ATM-26x1800x3600.tar",
             "SDRBENCH-exaalt-copper.tar",
             "SDRBENCH-exaalt-helium.tar",
             "EXASKY-HACC-data-medium-size.tar",
-            "SDRBENCH-Miranda-256x384x384.tar",
             "SDRBENCH-EXAALT-2869440.tar"]
 
 links = get_links_from_page(url)
