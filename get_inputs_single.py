@@ -104,9 +104,9 @@ for filename in os.listdir("."):
         shutil.move(filename, os.path.join("single_inputs", filename))
 
 # Unzip all .tar.gz files in the "single_inputs" folder
-unzip_files("double_inputs")
+unzip_files("single_inputs")
 
-delete_gz_files("double_inputs")
+delete_gz_files("single_inputs")
 
 # Delete files from "single_inputs" folder that contain the word "log" and have the .txt extension
 delete_files_with_word("single_inputs", "log")
