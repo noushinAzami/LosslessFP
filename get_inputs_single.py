@@ -97,11 +97,11 @@ for link in links:
                 break  # Break the inner loop to avoid downloading the same file multiple times if it matches multiple keywords
 
 # Create a folder named "single_inputs" and move all downloaded files into it
-if not os.path.exists("double_inputs"):
-    os.makedirs("double_inputs")
+if not os.path.exists("single_inputs"):
+    os.makedirs("single_inputs")
 for filename in os.listdir("."):
     if filename.endswith(".gz"):
-        shutil.move(filename, os.path.join("double_inputs", filename))
+        shutil.move(filename, os.path.join("single_inputs", filename))
 
 # Unzip all .tar.gz files in the "single_inputs" folder
 unzip_files("double_inputs")
