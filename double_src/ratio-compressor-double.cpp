@@ -72,26 +72,26 @@ struct CPUTimer
 };
 
 
-static void h_encode(const byte* const __restrict__ input, const int insize, byte* const __restrict__ output, int& outsize)
+static void h_encode(const byte* const __restrict__ input, const long long insize, byte* const __restrict__ output, long long& outsize)
 {
   // initialize
-  const int chunks = (insize + CS - 1) / CS;  // round up
-  int* const head_out = (int*)output;
+  const long long chunks = (insize + CS - 1) / CS;  // round up
+  long long* const head_out = (long long*)output;
   unsigned short* const size_out = (unsigned short*)&head_out[1];
   byte* const data_out = (byte*)&size_out[chunks];
-  int* const carry = new int [chunks];
-  memset(carry, 0, chunks * sizeof(int));
+  long long* const carry = new long long [chunks];
+  memset(carry, 0, chunks * sizeof(long long));
 
   // process chunks in parallel
   #pragma omp parallel for schedule(dynamic, 1)
-  for (int chunkID = 0; chunkID < chunks; chunkID++) {
+  for (long long chunkID = 0; chunkID < chunks; chunkID++) {
     // load chunk
     long long chunk1 [CS / sizeof(long long)];
     long long chunk2 [CS / sizeof(long long)];
     byte* in = (byte*)chunk1;
     byte* out = (byte*)chunk2;
-    const int base = chunkID * CS;
-    const int osize = std::min(CS, insize - base);
+    const long long base = chunkID * CS;
+    const int osize = (int)std::min((long long)CS, insize - base);
     memcpy(out, &input[base], osize);
 
     // encode chunk
@@ -110,7 +110,8 @@ static void h_encode(const byte* const __restrict__ input, const int insize, byt
       good = h_RARE_8(csize, in, out);
     }
 
-    int offs = 0;
+    // handle carry and store chunk
+    long long offs = 0LL;
     if (chunkID > 0) {
       do {
         #pragma omp atomic read
@@ -121,13 +122,13 @@ static void h_encode(const byte* const __restrict__ input, const int insize, byt
     if (good && (csize < osize)) {
       // store compressed data
       #pragma omp atomic write
-      carry[chunkID] = offs + csize;
+      carry[chunkID] = (offs + (long long)csize);
       size_out[chunkID] = csize;
       memcpy(&data_out[offs], out, csize);
     } else {
       // store original data
       #pragma omp atomic write
-      carry[chunkID] = offs + osize;
+      carry[chunkID] = (offs + (long long)osize);
       size_out[chunkID] = osize;
       memcpy(&data_out[offs], &input[base], osize);
     }
@@ -153,12 +154,11 @@ int main(int argc, char* argv [])
   fseek(fin, 0, SEEK_END);
   const long long fsize = ftell(fin);
   if (fsize <= 0) {fprintf(stderr, "ERROR: input file too small\n\n"); throw std::runtime_error("LC error");}
-  if (fsize >= 2147221529) {fprintf(stderr, "ERROR: input file too large\n\n"); throw std::runtime_error("LC error");}
   byte* const input = new byte [fsize];
   fseek(fin, 0, SEEK_SET);
-  const int insize = fread(input, 1, fsize, fin);  assert(insize == fsize);
+  const long long insize = fread(input, 1, fsize, fin);  assert(insize == fsize);
   fclose(fin);
-  printf("original size: %d bytes\n", insize);
+  printf("original size: %lld bytes\n", insize);
 
   // Check if the third argument is "y" to enable performance analysis
   char* perf_str = argv[3];
@@ -171,23 +171,23 @@ int main(int argc, char* argv [])
   }
 
   // allocate CPU memory
-  const int chunks = (insize + CS - 1) / CS;  // round up
-  const int maxsize = 3 * sizeof(int) + chunks * sizeof(short) + chunks * CS;
+  const long long chunks = (insize + CS - 1) / CS;  // round up
+  const long long maxsize = 3 * sizeof(int) + chunks * sizeof(short) + chunks * CS;
   byte* const hencoded = new byte [maxsize];
-  int hencsize = 0;
+  long long hencsize = 0;
 
   // time CPU preprocessor encoding
   byte* hpreencdata = new byte [insize];
   std::copy(input, input + insize, hpreencdata);
-  int hpreencsize = insize;
-  if (perf) {
+  long long hpreencsize = insize;
+ /* if (perf) {
     // warm up
     byte* dummy = new byte [insize];
     std::copy(input, input + insize, dummy);
-    int dummy_size = 0;
+    long long dummy_size = 0;
     h_encode(dummy, dummy_size, hencoded, hencsize);
     delete [] dummy;
-  }
+  }*/
 
   CPUTimer htimer;
   htimer.start();
@@ -196,7 +196,7 @@ int main(int argc, char* argv [])
   h_encode(hpreencdata, hpreencsize, hencoded, hencsize);
   double hruntime = htimer.stop();
 
-  printf("encoded size: %d bytes\n", hencsize);
+  printf("encoded size: %lld bytes\n", hencsize);
   const float CR = (100.0 * hencsize) / insize;
   printf("ratio: %6.2f%% %7.3fx\n", CR, 100.0 / CR);
   if (perf) {

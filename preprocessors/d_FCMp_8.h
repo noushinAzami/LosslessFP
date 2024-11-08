@@ -130,7 +130,7 @@ static void cubSortOnDevice(T* d_data, const int size)
 }
 
 
-static inline void d_FCMp_8(int& size, byte*& data, const int paramc, const double paramv [])
+static inline void d_FCMp_8(long long& size, byte*& data, const int paramc, const double paramv [])
 {
   using T = unsigned long long;
 
@@ -159,7 +159,7 @@ static inline void d_FCMp_8(int& size, byte*& data, const int paramc, const doub
 }
 
 
-static inline void d_iFCMp_8(int& size, byte*& data, const int paramc, const double paramv [])
+static inline void d_iFCMp_8(long long& size, byte*& data, const int paramc, const double paramv [])
 {
   using T = unsigned long long;
 
