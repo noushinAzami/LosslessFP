@@ -70,38 +70,37 @@ struct CPUTimer
 };
 
 
-static void h_decode(const byte* const __restrict__ input, byte* const __restrict__ output, int& outsize)
+static void h_decode(const byte* const __restrict__ input, byte* const __restrict__ output, long long& outsize)
 {
   // input header
-  int* const head_in = (int*)input;
+  long long* const head_in = (long long*)input;
   outsize = head_in[0];
 
   // initialize
-  const int chunks = (outsize + CS - 1) / CS;  // round up
+  const long long chunks = (outsize + CS - 1) / CS;  // round up
   unsigned short* const size_in = (unsigned short*)&head_in[1];
   byte* const data_in = (byte*)&size_in[chunks];
-  int* const start = new int [chunks];
+  long long* const start = new long long [chunks];
 
   // convert chunk sizes into starting positions
-  int pfs = 0;
-  for (int chunkID = 0; chunkID < chunks; chunkID++) {
+  long long pfs = 0;
+  for (long long chunkID = 0; chunkID < chunks; chunkID++) {
     start[chunkID] = pfs;
-    pfs += (int)size_in[chunkID];
+    pfs += (long long)size_in[chunkID];
   }
 
   // process chunks in parallel
   #pragma omp parallel for schedule(dynamic, 1)
-  for (int chunkID = 0; chunkID < chunks; chunkID++) {
+  for (long long chunkID = 0; chunkID < chunks; chunkID++) {
     // load chunk
     long long chunk1 [CS / sizeof(long long)];
     long long chunk2 [CS / sizeof(long long)];
     byte* in = (byte*)chunk1;
     byte* out = (byte*)chunk2;
-    const int base = chunkID * CS;
-    const int osize = std::min(CS, outsize - base);
+    const long long base = chunkID * CS;
+    const int osize = (int)std::min((long long)CS, outsize - base);
     int csize = size_in[chunkID];
     if (csize == osize) {
-
       // simply copy
       memcpy(&output[base], &data_in[start[chunkID]], osize);
     } else {
@@ -114,11 +113,12 @@ static void h_decode(const byte* const __restrict__ input, byte* const __restric
       std::swap(in, out);
       h_iDIFFMS_8(csize, in, out);
 
-      if (csize != osize) {fprintf(stderr, "ERROR: csize %d does not match osize %d\n\n", csize, osize); throw std::runtime_error("LC error");}
+      if (csize != osize) {fprintf(stderr, "ERROR: csize %d does not match osize %d in chunk %lld\n\n", csize, osize, chunkID); throw std::runtime_error("LC error");}
       memcpy(&output[base], out, csize);
     }
   }
 
+  // finish
   delete [] start;
 }
 
@@ -133,15 +133,15 @@ int main(int argc, char* argv [])
 
   // read input file
   FILE* const fin = fopen(argv[1], "rb");
-  int pre_size = 0;
-  const int pre_val = fread(&pre_size, sizeof(pre_size), 1, fin); assert(pre_val == sizeof(pre_size));
+  long long pre_size = 0;
+  const long long pre_val = fread(&pre_size, sizeof(pre_size), 1, fin); assert(pre_val == sizeof(pre_size));
   fseek(fin, 0, SEEK_END);
-  const int hencsize = ftell(fin);  assert(hencsize > 0);
+  const long long hencsize = ftell(fin);  assert(hencsize > 0);
   byte* const hencoded = new byte [pre_size];
   fseek(fin, 0, SEEK_SET);
-  const int insize = fread(hencoded, 1, hencsize, fin);  assert(insize == hencsize);
+  const long long insize = fread(hencoded, 1, hencsize, fin);  assert(insize == hencsize);
   fclose(fin);
-  printf("encoded size: %d bytes\n", insize);
+  printf("encoded size: %lld bytes\n", insize);
 
   // Check if the third argument is "y" to enable performance analysis
   char* perf_str = argv[3];
@@ -155,12 +155,12 @@ int main(int argc, char* argv [])
 
   // allocate CPU memory
   byte* hdecoded = new byte [pre_size];
-  int hdecsize = 0;
+  long long hdecsize = 0;
 
   if (perf) {
     // warm up
     byte* dummy = new byte [pre_size];
-    int dummy_size = 0;
+    long long dummy_size = 0;
     h_decode(hencoded, dummy, dummy_size);
     delete [] dummy;
   }
@@ -171,7 +171,7 @@ int main(int argc, char* argv [])
   h_decode(hencoded, hdecoded, hdecsize);
   double hruntime = htimer.stop();
 
-  printf("decoded size: %d bytes\n", hdecsize);
+  printf("decoded size: %lld bytes\n", hdecsize);
   const float CR = (100.0 * insize) / hdecsize;
   printf("ratio: %6.2f%% %7.3fx\n", CR, 100.0 / CR);
   if (perf) {

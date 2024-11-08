@@ -49,7 +49,7 @@ static inline int hash12(T val)
 }
 
 
-static inline void h_FCMp_8(int& size, byte*& data, const int paramc, const double paramv [])
+static inline void h_FCMp_8(long long& size, byte*& data, const int paramc, const double paramv [])
 {
   using T = unsigned long long;
   if (size % sizeof(T) != 0) {fprintf(stderr, "h_FCMp_8: ERROR: size of input must be a multiple of %ld bytes\n", sizeof(T)); throw std::runtime_error("LC error");}
@@ -104,7 +104,7 @@ static inline void h_FCMp_8(int& size, byte*& data, const int paramc, const doub
 }
 
 
-static inline void h_iFCMp_8(int& size, byte*& data, const int paramc, const double paramv [])
+static inline void h_iFCMp_8(long long& size, byte*& data, const int paramc, const double paramv [])
 {
   using T = unsigned long long;
   if (size % (sizeof(T) * 2) != 0) {fprintf(stderr, "h_FCMp_8: ERROR: size of input must be a multiple of %ld bytes\n", sizeof(T) * 2); throw std::runtime_error("LC error");}
