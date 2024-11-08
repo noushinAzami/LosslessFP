@@ -28,7 +28,7 @@ def combine_text_files(directory):
                 combined_content += file_content + "\n"  # Add a newline between each file's content
 
     # Write the combined content to a new file
-    output_file = os.path.join("combined-single.txt")
+    output_file = os.path.join("combined-double.txt")
     with open(output_file, "w") as combined_file:
         combined_file.write(combined_content)
 
@@ -36,9 +36,9 @@ def combine_text_files(directory):
 
 
 # Read the text file
-combine_text_files("single_inputs")
+combine_text_files("double_inputs")
 
-with open('combined-single.txt', 'r') as file:
+with open('combined-double.txt', 'r') as file:
     code_block = file.read()
 
 # Regular expression to match multiple occurrences of the pattern
@@ -67,10 +67,10 @@ combined_dict = dict(combined_list)
 #print(combined_list)
 # Organize data for each chart category
 chart_data = {
-    'CPU Compress': {'SPratio': combined_dict['ratio-cpu-compress.exe'], 'SPspeed': combined_dict['speed-cpu-compress.exe']},
-    'CPU Decompress': {'SPratio': combined_dict['ratio-cpu-decompress.exe'], 'SPspeed': combined_dict['speed-cpu-decompress.exe']},
-    'GPU Compress': {'SPratio': combined_dict['ratio-gpu-compress.exe'], 'SPspeed': combined_dict['speed-gpu-compress.exe']},
-    'GPU Decompress': {'SPratio': combined_dict['ratio-gpu-decompress.exe'], 'SPspeed': combined_dict['speed-gpu-decompress.exe']}
+    'CPU Compress': {'DPratio': combined_dict['ratio-cpu-compress.exe'], 'DPspeed': combined_dict['speed-cpu-compress.exe']},
+    'CPU Decompress': {'DPratio': combined_dict['ratio-cpu-decompress.exe'], 'DPspeed': combined_dict['speed-cpu-decompress.exe']},
+    'GPU Compress': {'DPratio': combined_dict['ratio-gpu-compress.exe'], 'DPspeed': combined_dict['speed-gpu-compress.exe']},
+    'GPU Decompress': {'DPratio': combined_dict['ratio-gpu-decompress.exe'], 'DPspeed': combined_dict['speed-gpu-decompress.exe']}
 }
 
 # Plotting each chart
@@ -96,5 +96,5 @@ for i, ax in enumerate(axes.flat):
 
 # Save the plot as a PNG file
 plt.tight_layout(rect=[0, 0, 1, 0.96])
-plt.savefig("single_charts.png")
+plt.savefig("double_charts.png")
 plt.show()
