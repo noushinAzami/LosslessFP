@@ -46,10 +46,10 @@ To install the artifact
 
 ###### Experiment workflow
 1. Clone artifact repository from https://github.com/alexfallin/LosslessFP-Artifact-ASPLOS25
-2. Run 'get\_inputs.py' to collect the inputs used by the artifact
+2. Run ‘get\_inputs\_\{double, single\}.py’ to collect the inputs used by the artifact
 3. Run 'compile.py' to compile SPratio, SPspeed, DPratio, and DPspeed
-4. Run 'run\_experiments.py' to produce the intermediate experimental output
-5. Run 'generate\_scatter\_charts.py' to produce compression and decompression charts that look like Figures 8 through 13 but without the results for the third-party codes.
+4. Run ‘run\_experiments\_\{double, single\}.py’ to produce the intermediate experimental output
+5. Run ‘chart\_\{double, single\}.py’ to produce compression and decompression charts that look like Figures 8 through 13 but without the results for the third-party codes.
 6. View the charts
 
 ###### Evaluation and expected results
