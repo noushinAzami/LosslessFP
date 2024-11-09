@@ -131,7 +131,7 @@ static inline __device__ void propagate_carry(const int value, const long long c
         if (cidm1ml >= 0) {
           val = fullcarry[cidm1ml];
         }
-      } while ((__any_sync(-1LL, val == 0)) || (__all_sync(-1, val <= 0)));
+      } while ((__any_sync(-1, val == 0)) || (__all_sync(-1, val <= 0)));
 #if defined(WS) && (WS == 64)
       const long long mask = __ballot_sync(-1, val > 0);
       const int pos = __ffsll(mask) - 1;
