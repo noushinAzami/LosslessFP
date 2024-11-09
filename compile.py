@@ -69,4 +69,5 @@ if __name__ == "__main__":
     # Calculate execution time
     execution_time = time.time() - start_time
     print("compile time:\n {:.2f} seconds".format(execution_time))
+    print("compiled executables can be found in single_src/bin/ and double_src/bin/")
 
