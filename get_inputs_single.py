@@ -112,6 +112,9 @@ delete_gz_files("single_inputs")
 delete_files_with_word("single_inputs", "log")
 delete_files_with_word("single_inputs", ".txt")
 
+# Move the dataset files so the next script can see them
+os.system("mv single_inputs/dataset/*/* single_inputs/dataset/")
+
 # Calculate execution time
 execution_time = time.time() - start_time
 print("Script execution time:", execution_time, "seconds")
