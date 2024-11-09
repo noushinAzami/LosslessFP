@@ -98,3 +98,4 @@ for i, ax in enumerate(axes.flat):
 plt.tight_layout(rect=[0, 0, 1, 0.96])
 plt.savefig("single_charts.png")
 plt.show()
+print("Chart saved to 'single_charts.png'")
