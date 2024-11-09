@@ -21,14 +21,14 @@ This artifact contains the code and script to generate compression-ratio and thr
 
 ### Description
 ###### How to access
-The artifact can be found at https://github.com/alexfallin/LosslessFP-Artifact-ASPLOS25.
+The artifact can be found at https://github.com/noushinAzami/LosslessFP.
 
 ###### Hardware dependencies
 The hardware required for this artifact is an x86 multi-core CPU and a CUDA-capable GPU. We used a 32-core Intel Xeon Gold 6226R CPU @ 2.9 GHz with hyperthreading enabled to run the CPU codes. To run the GPU codes, we used an NVIDIA RTX 3080 Ti. Using similar hardware should result in throughputs similar to those reported in the paper.
 
 ###### Software dependencies
 The required software includes:
-- The computational artifact from https://github.com/alexfallin/LosslessFP-Artifact-ASPLOS25
+- The computational artifact from https://github.com/noushinAzami/LosslessFP
 - GCC 7.5.0 or higher
 - OpenMP 3.1 or higher
 - CUDA 11.0 or higher
@@ -41,11 +41,11 @@ The data sets used in the artifact are downloaded as part of the installation pr
 
 ###### Installation
 To install the artifact
-- Clone artifact repository from https://github.com/alexfallin/LosslessFP-Artifact-ASPLOS25
+- Clone artifact repository from https://github.com/noushinAzami/LosslessFP
 - Run 'compile.py' to compile SPratio, SPspeed, DPratio, and DPspeed
 
 ###### Experiment workflow
-1. Clone artifact repository from https://github.com/alexfallin/LosslessFP-Artifact-ASPLOS25
+1. Clone artifact repository from https://github.com/noushinAzami/LosslessFP
 2. Run ‘get\_inputs\_\{double, single\}.py’ to collect the inputs used by the artifact
 3. Run 'compile.py' to compile SPratio, SPspeed, DPratio, and DPspeed
 4. Run ‘run\_experiments\_\{double, single\}.py’ to produce the intermediate experimental output
