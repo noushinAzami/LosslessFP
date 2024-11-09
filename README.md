@@ -11,8 +11,8 @@ This artifact contains the code and script to generate compression-ratio and thr
   - Metrics: Compression ratio and throughput
   - Output: Compression ratio vs. throughput scatter plots
   - How much disk space required (approximately)?: 100 GB
-  - How much time is needed to prepare workflow (approximately)?: 120 min. to download inputs
-  - How much time is needed to complete experiments (approximately)?: 100 min. for the GPU and 200 min. for the CPU
+  - How much time is needed to prepare workflow (approximately)?: 180 minutes to download inputs
+  - How much time is needed to complete experiments (approximately)?: 100 minutes for the GPU and 200 minutes for the CPU
   - Publicly available?: Yes
   - Code licenses (if publicly available)?: BSD 3-Clause License
   - Workflow automation framework used?: Python scripts
@@ -41,20 +41,20 @@ The data sets used in the artifact are downloaded as part of the installation pr
 
 ###### Installation
 To install the artifact
-- Clone artifact repository from https://github.com/noushinAzami/LosslessFP
-- Run 'compile.py' to compile SPratio, SPspeed, DPratio, and DPspeed
+- Clone the repository from https://github.com/noushinAzami/LosslessFP
+- Run './compile.py' to compile SPratio, SPspeed, DPratio, and DPspeed
 
 ###### Experiment workflow
-1. Clone artifact repository from https://github.com/noushinAzami/LosslessFP
-2. Run ‘get\_inputs\_\{double, single\}.py’ to collect the inputs used by the artifact
-3. Run 'compile.py' to compile SPratio, SPspeed, DPratio, and DPspeed
-4. Run ‘run\_experiments\_\{double, single\}.py’ to produce the intermediate experimental output
-5. Run ‘chart\_\{double, single\}.py’ to produce compression and decompression charts that look like Figures 8 through 19 but without the results for the third-party codes.
-6. View the charts which are in the root directory named 'double_charts.png' and 'single_charts.png'
+1. Clone the repository from https://github.com/noushinAzami/LosslessFP
+2. Run './get\_inputs\_double.py' and './get\_inputs\_single.py' to download and set up the inputs used by the artifact
+3. Run './compile.py' to compile SPratio, SPspeed, DPratio, and DPspeed
+4. Run './run\_experiments\_double.py' and './run\_experiments\_single.py' to produce the intermediate experimental results
+5. Run './chart\_double.py' and './chart\_single.py' to produce compression and decompression charts that look like Figures 8 through 19 but without the results for the third-party codes.
+6. View the charts which are in the current directory under 'double_charts.png' and 'single_charts.png'
 
 ###### Evaluation and expected results
 
-The evaluation of the results is accomplished by comparing the result figures generated using this artifact to the SPratio, SPspeed, DPratio, and DPspeed results listed in Figures 8 through 19. The absolute values of the throughputs and the relative positions may be different based on the CPU and GPU used, but the compression ratios should be the same.
+The evaluation of the results is accomplished by comparing the figures generated using this artifact to the SPratio, SPspeed, DPratio, and DPspeed results listed in Figures 8 through 19. The absolute values of the throughputs and the relative positions may be different based on the CPU and GPU used, but the compression ratios should be the same.
 
 ###### Methodology
 
